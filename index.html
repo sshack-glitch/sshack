@@ -3,121 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SONİX // Instagram DM Alıcısı</title>
+    <title>SONİX | Canlı Bot Sunucu Paneli</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <style>
-        .neon-glow {
-            box-shadow: 0 0 25px rgba(34, 197, 94, 0.15);
-        }
-        .neon-text {
-            text-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
-        }
-        .cyber-grid {
-            background-image: linear-gradient(rgba(34, 197, 94, 0.01) 1px, transparent 1px), linear-gradient(90deg, rgba(34, 197, 94, 0.01) 1px, transparent 1px);
-            background-size: 30px 30px;
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-gray-950 text-gray-100 min-h-screen font-sans cyber-grid select-none">
+<body class="bg-gray-950 text-gray-100 font-sans min-h-screen flex flex-col">
 
-    <header class="border-b border-green-500/30 bg-gray-900/40 backdrop-blur-md px-6 py-4 flex justify-between items-center sticky top-0 z-50">
-        <div class="flex items-center space-x-3">
-            <div id="status-dot" class="h-3 w-3 rounded-full bg-green-500 shadow-[0_0_10px_#22c55e] animate-pulse"></div>
-            <h1 class="text-xl font-mono font-bold tracking-widest text-green-400 neon-text">SONİX // INSTA_CORE</h1>
+    <nav class="bg-gray-900 border-b border-gray-800 p-4 shadow-md">
+        <div class="container mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+            <h1 class="text-xl font-bold tracking-wider text-indigo-400 flex items-center gap-2">
+                <i class="fa-solid fa-terminal text-emerald-400"></i> SONİX BOT LIVE LOG SERVER
+            </h1>
+            <div class="flex items-center gap-3">
+                <span id="server-status" class="bg-red-500/10 text-red-400 text-xs px-3 py-1 rounded-full border border-red-500/20 flex items-center gap-1.5">
+                    <span class="h-2 w-2 rounded-full bg-red-500"></span> Sunucu Kapalı
+                </span>
+            </div>
         </div>
-        <div class="text-xs font-mono text-gray-400 bg-gray-950/80 px-3 py-1.5 rounded-lg border border-gray-800 flex items-center gap-2">
-            <span class="h-1.5 w-1.5 rounded-full bg-green-500 animate-ping"></span>
-            TUNNEL STATUS: <span class="text-green-400 font-bold">READY</span>
-        </div>
-    </header>
+    </nav>
 
-    <main class="max-w-6xl mx-auto p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="container mx-auto p-4 sm:p-6 flex-1 flex flex-col gap-6">
         
-        <div class="lg:col-span-1 bg-gray-900/50 backdrop-blur-sm p-6 rounded-2xl border border-gray-800/80 neon-glow h-fit">
-            <h2 class="text-xs font-mono font-bold text-green-400 mb-4 tracking-wider flex items-center gap-2">
-                ⚙️ META WEBHOOK YAPILANDIRMASI
-            </h2>
-            
-            <div class="space-y-4 font-mono text-[11px] text-gray-400 leading-relaxed">
-                <p class="border-b border-gray-800 pb-2"><strong class="text-gray-200">1. Adım:</strong> Meta for Developers paneline gidip Instagram Graph API uygulamanızı seçin.</p>
-                <p class="border-b border-gray-800 pb-2"><strong class="text-gray-200">2. Adım:</strong> Webhook ayarlarındaki <span class="text-green-400">Callback URL</span> alanına bu adresi yapıştırın:</p>
-                
-                <div class="bg-gray-950 p-2.5 rounded-xl border border-gray-900 font-mono text-[10px] text-green-500 break-all select-all text-center">
-                    <span id="webhook-url-display">Yükleniyor...</span>
-                </div>
-
-                <p class="border-b border-gray-800 pb-2"><strong class="text-gray-200">3. Adım:</strong> <span class="text-green-400">Verify Token</span> kutusuna kodun içindeki gizli doğrulama anahtarını girin:</p>
-                <div class="bg-gray-950 p-2 rounded-xl border border-gray-900 font-mono text-[10px] text-gray-300 text-center select-all">
-                    sonix_instagram_secure_token_2026
-                </div>
-                
-                <p class="pt-1">🛡️ <strong class="text-gray-300">Abonelikler:</strong> İnternet panelinden <span class="text-green-400">"instagram_messages"</span> olayına abone olmayı unutmayın.</p>
+        <div class="bg-gray-900 p-4 rounded-xl border border-gray-800 shadow-lg flex flex-col sm:flex-row gap-4 items-end">
+            <div class="flex-1 w-full">
+                <label class="text-xs text-gray-400 font-mono block mb-1">TELEGRAM BOT TOKEN ENTRY:</label>
+                <input type="text" id="bot-token" value="8738504549:AAHBiEr6JMEE-g8dGAqfe_4UfIOe3NR9neQ" placeholder="Token giriniz..." class="w-full bg-gray-950 border border-gray-700 p-2.5 rounded text-indigo-300 font-mono text-sm focus:outline-none focus:border-indigo-500">
             </div>
+            <button onclick="toggleServer()" id="btn-listen" class="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-2.5 rounded shadow transition flex items-center justify-center gap-2">
+                <i class="fa-solid fa-play"></i> Dinlemeyi Başlat (Start Server)
+            </button>
         </div>
 
-        <div class="lg:col-span-2 space-y-3">
-            <div class="flex justify-between items-center px-1">
-                <h3 class="text-xs font-mono uppercase tracking-wider text-green-500/70 font-bold">Anlık Mesajlaşma Akışı (IG_DM_STREAM)</h3>
-                <span class="text-[10px] font-mono text-green-400 animate-pulse">● CANLI SINYAL ALINIYOR</span>
+        <div class="bg-gray-900 rounded-xl border border-gray-800 p-4 shadow-lg flex flex-col flex-1 min-h-[400px]">
+            <div class="flex justify-between items-center mb-3 border-b border-gray-800 pb-2">
+                <h2 class="text-sm font-semibold text-emerald-400 font-mono flex items-center gap-2">
+                    <i class="fa-solid fa-circle-notch animate-spin text-xs hidden" id="loading-spinner"></i> Gelen Mesaj Logları (Canlı)
+                </h2>
+                <button onclick="clearLogs()" class="text-xs text-gray-500 hover:text-gray-300 transition">Konsolu Temizle</button>
             </div>
             
-            <div id="dm-container" class="bg-gray-950/90 backdrop-blur-sm border border-gray-800/80 rounded-2xl p-5 font-mono text-xs text-gray-400 h-[480px] overflow-y-auto space-y-3 shadow-inner">
-                <div id="empty-state" class="text-gray-600 text-center py-36">
-                    <div class="text-3xl mb-2 animate-pulse">💬</div>
-                    Instagram sunucularından veri akışı bekleniyor...
-                </div>
+            <div id="console-logs" class="overflow-y-auto flex-1 bg-gray-950 p-4 rounded-lg font-mono text-xs text-green-400 space-y-3 border border-gray-800 max-h-[500px]">
+                <p class="text-gray-600 italic">[Sistem hazır. Dinlemeyi başlatmak için yukarıdaki butona tıklayın...]</p>
             </div>
         </div>
-
-    </main>
+    </div>
 
     <script>
-        window.onload = function() {
-            // Sunucu linkini tarayıcı adresine göre otomatik tamamla
-            const currentUrl = window.location.origin;
-            document.getElementById("webhook-url-display").innerText = currentUrl + "/api/instagram-webhook";
+        let isListening = false;
+        let lastUpdateId = 0;
+        let pollingInterval = null;
+
+        const serverStatus = document.getElementById('server-status');
+        const btnListen = document.getElementById('btn-listen');
+        const consoleLogs = document.getElementById('console-logs');
+        const spinner = document.getElementById('loading-spinner');
+
+        // Konsola şık log basma fonksiyonu
+        function logToConsole(message, type = 'info') {
+            const time = new Date().toLocaleTimeString('tr-TR');
+            let colorClass = "text-gray-400";
             
-            // Her 1.5 saniyede bir sunucudan yeni DM gelmiş mi diye kontrol et
-            setInterval(fetchLiveDMs, 1500);
+            if (type === 'success') colorClass = "text-green-400 font-bold border-l-2 border-green-500 pl-2 bg-green-500/5 py-1 rounded";
+            if (type === 'error') colorClass = "text-red-400 font-bold";
+            if (type === 'system') colorClass = "text-indigo-400 italic";
+
+            const logItem = document.createElement('div');
+            logItem.className = `mb-1 ${colorClass}`;
+            logItem.innerHTML = `<span class="text-gray-600">[${time}]</span> ${message}`;
+            
+            consoleLogs.appendChild(logItem);
+            consoleLogs.scrollTop = consoleLogs.scrollHeight; // Otomatik aşağı kaydır
         }
 
-        let lastLogsCount = 0;
+        function clearLogs() {
+            consoleLogs.innerHTML = '<p class="text-gray-600 italic">[Konsol temizlendi...]</p>';
+        }
 
-        async function fetchLiveDMs() {
-            try {
-                const response = await fetch('/api/get-dm-logs');
-                const logs = await response.json();
+        // Sunucuyu Aç / Kapat
+        function toggleServer() {
+            const token = document.getElementById('bot-token').value.trim();
+            if (!token) {
+                alert("Lütfen önce geçerli bir Bot Token girin!");
+                return;
+            }
+
+            if (!isListening) {
+                // Dinlemeyi Başlat
+                isListening = true;
+                btnListen.innerHTML = `<i class="fa-solid fa-stop"></i> Dinlemeyi Durdur`;
+                btnListen.className = "w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white font-semibold px-6 py-2.5 rounded shadow transition flex items-center justify-center gap-2";
+                serverStatus.innerHTML = `<span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span> Sunucu Aktif (Dinliyor...)`;
+                serverStatus.className = "bg-emerald-500/10 text-emerald-400 text-xs px-3 py-1 rounded-full border border-emerald-500/20 flex items-center gap-1.5";
+                spinner.classList.remove('hidden');
                 
-                const container = document.getElementById("dm-container");
-                const emptyState = document.getElementById("empty-state");
+                logToConsole("⚡ Sunucu motoru başlatıldı. Telegram API sorgulanıyor...", "system");
+                
+                // Botu dinleme döngüsüne sok (Her 2 saniyede bir yeni mesaj var mı diye bakar)
+                pollingInterval = setInterval(() => checkBotUpdates(token), 2000);
+            } else {
+                // Dinlemeyi Durdur
+                isListening = false;
+                clearInterval(pollingInterval);
+                btnListen.innerHTML = `<i class="fa-solid fa-play"></i> Dinlemeyi Başlat (Start Server)`;
+                btnListen.className = "w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-2.5 rounded shadow transition flex items-center justify-center gap-2";
+                serverStatus.innerHTML = `<span class="h-2 w-2 rounded-full bg-red-500"></span> Sunucu Kapalı`;
+                serverStatus.className = "bg-red-500/10 text-red-400 text-xs px-3 py-1 rounded-full border border-red-500/20 flex items-center gap-1.5";
+                spinner.classList.add('hidden');
+                
+                logToConsole("🛑 Sunucu durduruldu.", "error");
+            }
+        }
 
-                if (logs.length > 0) {
-                    if (emptyState) emptyState.remove();
-                    
-                    if (logs.length !== lastLogsCount) {
-                        lastLogsCount = logs.length;
-                        container.innerHTML = ""; 
-                        
-                        logs.forEach(dm => {
-                            const card = document.createElement("div");
-                            card.className = "p-3.5 rounded-xl border border-gray-900 bg-gray-900/30 transition-all duration-300 hover:border-green-500/20 flex flex-col gap-2";
-                            
-                            card.innerHTML = `
-                                <div class="flex justify-between items-center border-b border-gray-950 pb-1.5 flex-wrap gap-2">
-                                    <div class="flex items-center space-x-2">
-                                        <span class="px-2 py-0.5 bg-gradient-to-r from-purple-950 to-pink-950 text-pink-400 border border-pink-900/30 rounded text-[10px] font-bold">APP: INSTAGRAM</span>
-                                        <span class="text-gray-400 font-mono text-[11px]">Kullanıcı ID: ${dm.sender_id}</span>
-                                    </div>
-                                    <span class="text-[10px] text-gray-500 font-bold">[${dm.time}]</span>
-                                </div>
-                                <div class="text-gray-300 bg-gray-950/60 p-3 rounded-lg border border-gray-900/50 leading-relaxed break-all select-text">${dm.message}</div>
-                            `;
-                            container.appendChild(card);
-                        });
-                    }
+        // Telegram API'den Mesajları Çeken Fonksiyon
+        async function checkBotUpdates(token) {
+            try {
+                // getUpdates API'sini kullanarak bota gelen son mesajları çekiyoruz
+                // offset parametresi sayesinde sadece yeni gelen mesajları alırız, eskileri tekrar okumayız
+                const response = await fetch(`https://api.telegram.org/bot${token}/getUpdates?offset=${lastUpdateId + 1}&timeout=1`);
+                const data = await response.json();
+
+                if (data.ok && data.result.length > 0) {
+                    data.result.forEach(update => {
+                        lastUpdateId = update.update_id; // Son okunan ID'yi güncelle
+
+                        if (update.message) {
+                            const msg = update.message;
+                            const userId = msg.from.id;
+                            const firstName = msg.from.first_name || "Bilinmiyor";
+                            const username = msg.from.username ? `@${msg.from.username}` : "Yok";
+                            const text = msg.text || "[Metin Olmayan Mesaj/Medya]";
+
+                            // Tam istediğin format: ID, Ad, Kullanıcı Adı ve Mesaj ekrana canlı basılır
+                            const logFormat = `💬 YENİ MESAJ -> <b>ID:</b> ${userId} | <b>Ad:</b> ${firstName} | <b>User:</b> ${username} | <b>Mesaj:</b> <span class="text-amber-300">"${text}"</span>`;
+                            logToConsole(logFormat, 'success');
+                        }
+                    });
                 }
             } catch (error) {
-                console.error("DM çekme hatası:", error);
+                console.error("Sorgulama hatası:", error);
+                logToConsole("⚠️ Telegram API bağlantı hatası oluştu, tekrar deneniyor...", "error");
             }
         }
     </script>
