@@ -7,19 +7,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Siber Parlama ve Özel Animasyonlar */
         .neon-glow {
             box-shadow: 0 0 15px rgba(99, 102, 241, 0.3);
-        }
-        .neon-glow-green {
-            box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
-        }
-        @keyframes pulse-fast {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
-        .pulse-fast {
-            animation: pulse-fast 1s infinite;
         }
         /* Arka Plan Hareketli Matris Çizgileri */
         .bg-cyber {
@@ -37,14 +26,13 @@
             pointer-events: none;
         }
 
-        /* 📱 MOBİL KAYDIRMA ÇÖZÜMÜ (SCROLL FIX) */
+        /* 📱 MOBİL KAYDIRMA ÇÖZÜMÜ */
         .scrollable-terminal {
             overflow-y: auto !important;
-            -webkit-overflow-scrolling: touch !important; /* iOS ve Android webview akıcılığı */
-            touch-action: pan-y !important; /* Sadece dikey kaydırmaya izin ver */
+            -webkit-overflow-scrolling: touch !important;
+            touch-action: pan-y !important;
         }
         
-        /* İnce Kaydırma Çubuğu Tasarımı */
         .scrollable-terminal::-webkit-scrollbar {
             width: 6px;
         }
@@ -59,7 +47,6 @@
 </head>
 <body class="bg-cyber text-gray-100 font-sans min-h-screen flex flex-col">
 
-    <!-- Navbar -->
     <nav class="bg-gray-950/80 backdrop-blur border-b border-indigo-500/30 p-4 shadow-lg z-10 relative">
         <div class="container mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
             <h1 class="text-2xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-emerald-400 flex items-center gap-2">
@@ -73,10 +60,8 @@
         </div>
     </nav>
 
-    <!-- Ana İçerik -->
-    <div class="container mx-auto p-4 sm:p-6 flex-1 flex flex-col gap-4 z-10 relative">
+    <div class="container mx-auto p-4 sm:p-6 flex-1 flex flex-col gap-5 z-10 relative">
         
-        <!-- Üst Kontrol Paneli -->
         <div class="bg-gray-900/90 border border-indigo-500/20 p-5 rounded-2xl shadow-2xl neon-glow backdrop-blur flex flex-col gap-4">
             <div>
                 <label class="text-xs text-indigo-400 font-mono block mb-1.5 uppercase tracking-wider">Target Bot Token:</label>
@@ -87,7 +72,7 @@
                 <button onclick="toggleServer()" id="btn-listen" class="flex-1 sm:flex-initial bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold px-6 py-3 rounded-xl shadow-lg transition duration-300 flex items-center justify-center gap-2 uppercase tracking-wider cursor-pointer">
                     <i class="fa-solid fa-power-off"></i> Dinlemeyi Başlat
                 </button>
-                <button onclick="downloadLogs()" class="bg-gray-800/80 hover:bg-gray-700 text-gray-300 text-xs font-semibold px-5 py-3 rounded-xl transition flex items-center justify-center gap-2 cursor-pointer border border-gray-700">
+                <button onclick="downloadLogs()" class="bg-gray-800/80 hover:bg-gray-700 text-gray-300 text-xs font-semibold px-5 py-3 rounded-xl transition flex items-center justify-center gap-2 border border-gray-700 cursor-pointer">
                     <i class="fa-solid fa-file-arrow-down"></i> Dışa Aktar
                 </button>
                 <button onclick="clearLogs()" class="bg-gray-900 hover:bg-red-900/30 hover:text-red-400 text-gray-500 text-xs px-4 py-3 rounded-xl transition border border-gray-800 cursor-pointer">
@@ -96,13 +81,39 @@
             </div>
         </div>
 
-        <!-- Canlı Arama Motoru -->
+        <div class="bg-gray-900/90 border border-indigo-500/20 p-5 rounded-2xl shadow-2xl backdrop-blur flex flex-col gap-4">
+            <h3 class="text-xs font-bold text-indigo-400 font-mono uppercase tracking-wider border-b border-gray-800 pb-2 flex items-center gap-2">
+                <i class="fa-solid fa-terminal text-emerald-400"></i> Termux Script Kütüphanesi
+            </h3>
+            
+            <div class="flex flex-wrap gap-2">
+                <button onclick="getTermuxCode('sms')" class="bg-gray-950 hover:bg-indigo-950/40 border border-gray-800 hover:border-indigo-500/30 text-gray-300 text-xs px-4 py-2.5 rounded-xl font-mono transition cursor-pointer">
+                    🚀 SMS Bomber (Enough Reborn)
+                </button>
+                <button onclick="getTermuxCode('ip')" class="bg-gray-950 hover:bg-indigo-950/40 border border-gray-800 hover:border-indigo-500/30 text-gray-300 text-xs px-4 py-2.5 rounded-xl font-mono transition cursor-pointer">
+                    📍 IP Tracer
+                </button>
+                <button onclick="getTermuxCode('phish')" class="bg-gray-950 hover:bg-indigo-950/40 border border-gray-800 hover:border-indigo-500/30 text-gray-300 text-xs px-4 py-2.5 rounded-xl font-mono transition cursor-pointer">
+                    🎣 Phishing Tool
+                </button>
+            </div>
+
+            <div id="termux-code-box" class="hidden bg-gray-950 border border-gray-800 rounded-xl p-4 flex flex-col gap-3">
+                <div class="flex justify-between items-center">
+                    <span id="tool-title" class="text-xs font-bold text-amber-400 font-mono uppercase"></span>
+                    <button onclick="copyTermuxCode()" class="bg-emerald-600/10 hover:bg-emerald-600/20 border border-emerald-500/30 text-emerald-400 text-[10px] font-bold px-3 py-1.5 rounded-lg transition uppercase tracking-wider cursor-pointer">
+                        <i class="fa-regular fa-copy"></i> Kopyala
+                    </button>
+                </div>
+                <pre id="termux-commands" class="text-emerald-400 font-mono text-[11px] bg-black/40 p-3 rounded-lg overflow-x-auto select-all whitespace-pre-wrap leading-relaxed border border-gray-900/60"></pre>
+            </div>
+        </div>
+
         <div class="relative">
-            <i class="fa-solid fa-terminal absolute left-4 top-4 text-indigo-500 text-xs"></i>
+            <i class="fa-solid fa-magnifying-glass absolute left-4 top-4 text-indigo-500 text-xs"></i>
             <input type="text" id="search-input" onkeyup="filterLogs()" placeholder="Veritabanında filtreleme yap (ID, isim, mesaj)..." class="w-full bg-gray-900/60 border border-indigo-500/10 pl-10 pr-4 py-3.5 text-xs rounded-2xl focus:outline-none focus:border-indigo-500/50 text-gray-300 font-mono backdrop-blur shadow-inner">
         </div>
 
-        <!-- Canlı Terminal Ekranı -->
         <div class="bg-gray-950/90 rounded-2xl border border-indigo-500/20 p-5 shadow-2xl flex flex-col flex-1 min-h-[350px] backdrop-blur">
             <div class="flex justify-between items-center mb-3 border-b border-gray-900 pb-2.5">
                 <h2 class="text-xs font-bold text-emerald-400 font-mono flex items-center gap-2 uppercase tracking-widest">
@@ -111,25 +122,23 @@
                 <span id="log-count" class="text-[10px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2.5 py-0.5 rounded-md">0 LOGS</span>
             </div>
             
-            <!-- Matrix Tarzı Akış Alanı (Dikey Kaydırma Özellikli) -->
-            <div id="console-logs" class="scrollable-terminal flex-1 p-2 font-mono text-xs text-emerald-400 space-y-2 max-h-[380px]">
+            <div id="console-logs" class="scrollable-terminal flex-1 p-2 font-mono text-xs text-emerald-400 space-y-2 max-h-[400px]">
                 <p class="text-gray-600 italic border-l border-gray-800 pl-2">[SYSTEM STATION READY. PRESS POWER TO BEGIN CAPTURE...]</p>
             </div>
         </div>
 
-        <!-- İletişim & Destek Kartı -->
         <div class="bg-gradient-to-r from-gray-900 via-indigo-950/40 to-gray-900 border border-indigo-500/20 p-4 rounded-2xl flex flex-col sm:flex-row justify-between items-center gap-4 shadow-xl backdrop-blur">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
-                    <i class="fa-solid fa-headset text-lg animate-pulse"></i>
+                    <i class="fa-solid fa-headset text-lg"></i>
                 </div>
                 <div>
                     <h4 class="text-xs font-bold uppercase tracking-wider text-white">Yardım & Teknik Destek</h4>
                     <p class="text-[11px] text-gray-400">Sistem veya kurulumla ilgili sorunlar için iletişim hattı</p>
                 </div>
             </div>
-            <a href="https://t.me/sonixhack" target="_blank" class="w-full sm:w-auto bg-sky-600/10 hover:bg-sky-600/20 border border-sky-500/30 text-sky-400 font-bold text-xs px-5 py-2.5 rounded-xl transition duration-300 flex items-center justify-center gap-2 tracking-wide neon-glow-green">
-                <i class="fa-brands fa-telegram text-base animate-bounce"></i> @sonixhack
+            <a href="https://t.me/sonixhack" target="_blank" class="w-full sm:w-auto bg-sky-600/10 hover:bg-sky-600/20 border border-sky-500/30 text-sky-400 font-bold text-xs px-5 py-2.5 rounded-xl transition duration-300 flex items-center justify-center gap-2 tracking-wide">
+                <i class="fa-brands fa-telegram text-base"></i> @sonixhack
             </a>
         </div>
 
@@ -147,17 +156,48 @@
         const spinner = document.getElementById('loading-spinner');
         const logCountSpan = document.getElementById('log-count');
 
+        // 👑 Güncellenmiş Termux Kod Bankası Verileri
+        const termuxScripts = {
+            sms: {
+                title: "Enough-Reborn SMS Bomber Kurulumu",
+                code: "pkg update && pkg upgrade -y\npkg install git python -y\ngit clone https://github.com/tingirifistik/Enough-Reborn.git\ncd Enough-Reborn\npip3 install -r requirements.txt\npython3 enough.py"
+            },
+            ip: {
+                title: "IP-Tracer Kurulum Komutları",
+                code: "apt update\napt install git -y\ngit clone https://github.com/rajkumardusad/IP-Tracer.git\ncd IP-Tracer\nchmod +x install\nsh install"
+            },
+            phish: {
+                title: "Phishing Tool Kurulum Komutları",
+                code: "pkg update && pkg upgrade -y\npkg install git php curl openssh -y\ngit clone https://github.com/htr-tech/zphisher\ncd zphisher\nbash zphisher.sh"
+            }
+        };
+
+        function getTermuxCode(type) {
+            const box = document.getElementById('termux-code-box');
+            const title = document.getElementById('tool-title');
+            const codePre = document.getElementById('termux-commands');
+
+            if (termuxScripts[type]) {
+                title.innerText = termuxScripts[type].title;
+                codePre.innerText = termuxScripts[type].code;
+                box.classList.remove('hidden');
+            }
+        }
+
+        function copyTermuxCode() {
+            const codeText = document.getElementById('termux-commands').innerText;
+            navigator.clipboard.writeText(codeText);
+            alert("Termux komutları başarıyla kopyalandı! Termux uygulamasına yapıştırabilirsiniz.");
+        }
+
         function playBeep() {
             const context = new (window.AudioContext || window.webkitAudioContext)();
             const osc = context.createOscillator();
             const gain = context.createGain();
-            osc.connect(gain);
-            gain.connect(context.destination);
-            osc.type = "sine";
-            osc.frequency.setValueAtTime(900, context.currentTime);
+            osc.connect(gain); gain.connect(context.destination);
+            osc.type = "sine"; osc.frequency.setValueAtTime(900, context.currentTime);
             gain.gain.setValueAtTime(0.05, context.currentTime);
-            osc.start();
-            osc.stop(context.currentTime + 0.08);
+            osc.start(); osc.stop(context.currentTime + 0.08);
         }
 
         function logToConsole(message, type = 'info', rawText = '') {
@@ -179,8 +219,6 @@
             if(type !== 'success') logItem.classList.add('system-msg');
             
             consoleLogs.appendChild(logItem);
-            
-            // Otomatik olarak en aşağı kaydır, ancak kullanıcı eliye yukarı çıktıysa engelleme
             consoleLogs.scrollTop = consoleLogs.scrollHeight;
             
             const count = consoleLogs.querySelectorAll('.log-item').length;
