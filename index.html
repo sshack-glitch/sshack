@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>SONIX HACK STATION</title>
+    <title>SONIX HACK </title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -55,7 +55,7 @@
 
             <div class="pt-2 border-t border-white/5">
                 <a href="https://t.me/sonixhack" target="_blank" class="inline-block text-[10px] font-mono text-slate-500 hover:text-red-400 transition cursor-pointer">
-                    <i class="fa-solid fa-user-shield mr-1"></i> Yetki Al / Şifre Yönetimi (@sonixhack)
+                    <i class="fa-solid fa-user-shield mr-1"></i> Yetki Şifre Yönetimi Al   (@sonixhack)
                 </a>
             </div>
         </div>
@@ -135,7 +135,7 @@
             mainApp.classList.add('flex');
             startCryptoStream();
         } else {
-            alert("❌ Erişim Reddedildi! Şifre '12345' olarak güncellendi. Kutunun içini elinle yazıp temizle.");
+            alert("❌ Erişim Reddedildi şifre almak için admin ile iletişime geçin .");
             inputField.value = "";
         }
     }
@@ -153,7 +153,7 @@
     }
 
     document.getElementById('gate-pass').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') checkGatePassword();
+        if (e.token === 'Enter') checkGatePassword();
     });
 
     let isListening = false, updateOffset = 0, streamInterval = null;
@@ -174,7 +174,7 @@
     function toggleBotStream() {
         const token = document.getElementById('bot-token').value.trim();
         const btn = document.getElementById('btn-stream');
-        if (!token) return alert("Bot Token eksik.");
+        if (!token) return alert("Bot Token eksik amk .");
 
         if (!isListening) {
             isListening = true; btn.innerText = "KAPAT";
@@ -186,7 +186,7 @@
             streamInterval = setInterval(() => fetchTelegramUpdates(token), 2000);
         } else {
             isListening = false; clearInterval(streamInterval);
-            btn.innerText = "BAĞLAN";
+            btn.innerText = "START";
             btn.className = "bg-red-600 text-white px-3 py-1 rounded-lg text-[10px] font-bold uppercase cursor-pointer";
             globalStatus.innerText = "CORE_READY";
             globalStatus.className = "bg-slate-900 text-red-400 text-[10px] px-2.5 py-0.5 rounded-full border border-red-500/20 font-mono font-bold";
@@ -239,7 +239,7 @@
         const chatId = document.getElementById('dl-chat-id').value.trim();
         const statusBox = document.getElementById('dl-status-box');
 
-        if (!token || !url || !chatId) return alert("Lütfen boş alan bırakmayın.");
+        if (!token || !url || !chatId) return alert(" boş alan bırakmayın.");
         statusBox.innerHTML = `<span class="text-amber-400 animate-pulse">> TikTok indirme motoru başlatılıyor...</span>`;
 
         try {
@@ -270,7 +270,7 @@
 
             const tgResponse = await fetch(`https://api.telegram.org/bot${token}/sendVideo`, {
                 method: "POST", headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ chat_id: chatId, video: cleanVideoUrl, caption: `📥 Yüklendi.\n⚡ Mod: TIKTOK_NO_WATERMARK`, supports_streaming: true })
+                body: JSON.stringify({ chat_id: chatId, video: cleanVideoUrl, caption: `📥 Yüklendi.\n⚡ Mod: sonix hack farkıyla`, supports_streaming: true })
             });
 
             const tgData = await tgResponse.json();
